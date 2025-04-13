@@ -1,0 +1,384 @@
+/* General Styles */
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    color: #333; /* Darker text */
+    background-color: #fdfcf6; /* Off-white/Cream */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: flex-start; /* Align container to top */
+    padding-top: 30px; /* Add some space from top */
+    padding-bottom: 30px;
+    transition: background-color 0.3s ease; /* Smooth transition for expand */
+}
+
+/* Style body when a page container is expanded */
+body.page-expanded {
+    padding-top: 0;
+    padding-bottom: 0;
+    /* Match container background if it differs, otherwise inherit */
+    background-color: #fdfcf6;
+}
+
+
+.container {
+    background-color: #fdfcf6; /* Match body or slightly different */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 850px; /* Adjust as needed */
+    width: 90%;
+    border-radius: 5px; /* Slightly rounded corners */
+    overflow: hidden; /* Ensure border wraps content */
+    position: relative; /* Needed for positioning expand button if not fixed */
+    transition: all 0.3s ease; /* Smooth transition for expand */
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Layout Specific Styles --- */
+
+/* Two-Column Layout (blog.html, about.html, misc.html) */
+.layout-two-column {
+    display: flex;
+}
+
+.left-column {
+    width: 35%; /* Adjust ratio as needed */
+    padding: 40px 30px;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, border 0.3s ease; /* Smooth hide */
+}
+
+.right-column {
+    width: 65%; /* Adjust ratio as needed */
+    padding: 40px 30px;
+    transition: width 0.3s ease; /* Smooth expand */
+}
+
+/* Single-Column Layout (index.html, post.html, resource.html) */
+.layout-single-column {
+    padding: 50px 40px;
+    text-align: center; /* Center header/footer elements */
+}
+
+
+/* --- Shared Elements --- */
+/* Adjust title margins slightly for KaTeX rendering */
+.site-title,
+.site-title-single {
+    font-size: 1.5em;
+    font-weight: normal;
+    margin-top: 0.2em; /* Adjust if needed */
+    margin-bottom: 15px; /* Increased slightly */
+    color: #222;
+}
+.site-title { /* Specific to two-column */
+     font-style: italic; /* Keep italic for sidebar */
+}
+.site-title-single { /* Specific to single-column */
+    display: inline-block;
+    position: relative;
+    padding: 0 20px;
+}
+.site-title-single .katex { /* Target KaTeX output if needed */
+     font-size: 1.0em !important; /* Override KaTeX size if necessary */
+}
+
+
+/* Lines for single-column title */
+.post-header .site-title-single::before,
+.post-header .site-title-single::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 1px;
+    background-color: #aaa;
+    transform: translateY(-50%); /* Better vertical centering */
+}
+.post-header .site-title-single::before { left: -40px; }
+.post-header .site-title-single::after { right: -40px; }
+
+
+.date-header {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 40px;
+}
+.post-header .date-header { /* Specific margin for single column */
+     margin-bottom: 50px;
+}
+
+
+/* --- Navigation --- */
+.navigation ul { list-style: none; padding: 0; margin: 0; }
+.left-column .navigation { margin-bottom: 40px; }
+.left-column .navigation li { margin-bottom: 10px; }
+.left-column .navigation a { font-size: 1.1em; font-style: italic; }
+
+.post-footer .navigation ul { display: flex; justify-content: center; gap: 30px; }
+.post-footer .navigation a {
+    font-size: 1.1em;
+    font-style: italic; /* Italic footer links */
+}
+
+
+/* --- Content Area Styles --- */
+.intro-text p,
+.about-content p:not(:has(> img)) { /* Avoid applying italic/size to image paragraphs in About */
+    font-size: 0.95em;
+    font-style: italic;
+    color: #555;
+    text-align: left;
+}
+
+.section-title {
+    font-size: 1.8em;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #222;
+}
+
+/* Blog List Styling */
+.blog-list ul { list-style: none; padding: 0; margin: 0; }
+.blog-list li { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #eee; }
+.blog-list li:last-child { border-bottom: none; }
+.blog-list .blog-title { font-size: 1.1em; font-style: italic; flex-grow: 1; margin-right: 20px; }
+.blog-list .blog-date { font-size: 0.9em; color: #777; white-space: nowrap; }
+
+/* Post Content & Resource Page Content Styling */
+/* Use a common class or apply rules to both selectors */
+.post-content,
+.main-content { /* Added .main-content for resource.html */
+     text-align: justify;
+     margin-bottom: 50px;
+     font-size: 1em;
+}
+.post-content h1, .post-content h2, .post-content h3,
+.main-content h1, .main-content h2, .main-content h3 {
+     text-align: left; margin-top: 2em; margin-bottom: 1em; font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.post-content p,
+.main-content p { margin-bottom: 1.2em; }
+.post-content ul, .post-content ol,
+.main-content ul, .main-content ol {
+    margin-left: 20px; margin-bottom: 1.2em;
+}
+.post-content code,
+.main-content code {
+    font-family: 'Courier New', Courier, monospace; background-color: #eee; padding: 2px 4px; border-radius: 3px; font-size: 0.9em;
+}
+.post-content pre,
+.main-content pre {
+    background-color: #f0f0f0; padding: 15px; border-radius: 4px; overflow-x: auto; border: 1px solid #ddd;
+}
+.post-content pre code,
+.main-content pre code {
+    background-color: transparent; padding: 0; border-radius: 0; font-size: 0.9em;
+}
+.post-content blockquote,
+.main-content blockquote {
+    border-left: 3px solid #ccc; margin-left: 0; padding-left: 15px; color: #555; font-style: italic;
+}
+.post-content img,
+.main-content img {
+    max-width: 100%; height: auto; display: block; margin: 20px auto;
+}
+
+
+/* --- Styles for Resource Link List (Misc Page) --- */
+/* Removed the styles for .resource-feed, .resource-item, etc. */
+.resource-link-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resource-link-list li {
+    /* Style similar to blog list items */
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    /* display: flex; */ /* Uncomment if adding dates */
+    /* justify-content: space-between; */
+    /* align-items: baseline; */
+}
+
+.resource-link-list li:last-child {
+    border-bottom: none;
+}
+
+.resource-link-list .resource-title { /* Class used in JS for the link */
+    font-size: 1.1em;
+    font-style: italic; /* Match blog titles */
+}
+
+/* Optional: Add styles for a resource date if you add it to the list */
+/*
+.resource-link-list .resource-date {
+    font-size: 0.9em;
+    color: #777;
+    white-space: nowrap;
+}
+*/
+
+
+/* --- Expand Button Styles --- */
+.expand-button {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background-color: rgba(230, 230, 230, 0.8);
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.2s ease; /* Only transition background */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    color: #333; /* Default color for the icon lines */
+    outline: none; /* Remove outline on focus */
+}
+
+.expand-button:hover {
+    background-color: rgba(200, 200, 200, 0.9);
+}
+
+/* Style the simple inline SVG icon */
+.expand-button .expand-collapse-icon {
+    width: 16px;  /* Adjust size as needed */
+    height: 16px; /* Adjust size as needed */
+    display: block;
+    /* Lines inside SVG use 'currentColor' for stroke, inheriting from button */
+    transition: transform 0.3s ease-in-out; /* Smooth rotation */
+}
+
+/* Tooltip for button */
+.expand-button .tooltip-text { visibility: hidden; width: 80px; background-color: #555; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -40px; opacity: 0; transition: opacity 0.3s; font-size: 12px; font-family: sans-serif;}
+.expand-button:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+
+/* --- Styles for Expanded State --- */
+.container.is-expanded {
+    max-width: none;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+/* Expanded Single Column */
+.container.is-expanded .layout-single-column {
+     padding: 40px 8%; /* Adjust padding */
+}
+
+/* Readability for expanded post/resource content */
+.container.is-expanded .post-content,
+.container.is-expanded .main-content { /* Added .main-content */
+    max-width: 80ch; /* Limit line length */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Expanded Two Column */
+.container.is-expanded .layout-two-column {
+     /* No change to display: flex needed */
+     padding: 0; /* Remove container padding */
+}
+.container.is-expanded .left-column {
+    width: 0; /* Collapse width */
+    opacity: 0;
+    padding: 0; /* Remove padding */
+    border: none; /* Remove border */
+    overflow: hidden; /* Hide content */
+    /* Ensure transition applies to relevant properties */
+    transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease, border 0.3s ease;
+}
+.container.is-expanded .right-column {
+    width: 100%;
+    border-left: none;
+    padding: 40px 8%; /* Consistent padding with single column expand */
+}
+
+
+/* Rotate icon when expanded */
+.container.is-expanded .expand-button .expand-collapse-icon {
+     transform: rotate(45deg); /* Rotating '+' by 45deg makes an 'X' */
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    body { padding-top: 15px; padding-bottom: 15px; }
+    body.page-expanded { padding: 0; } /* Remove padding on mobile when expanded */
+
+    .container { width: 95%; }
+    .container.is-expanded { width: 100%; border-radius: 0; } /* Full width on mobile expand */
+
+    .layout-two-column { flex-direction: column; }
+    .left-column, .right-column { width: auto !important; /* Override potential fixed width */ padding: 25px 20px; }
+    .left-column { border-right: none; border-bottom: 1px solid #e0e0e0; }
+    /* Hide left column entirely on mobile when expanded */
+    .container.is-expanded .left-column { display: none; }
+    .container.is-expanded .right-column { padding: 25px 5%; } /* Adjust padding */
+
+
+    .blog-list li { flex-direction: column; align-items: flex-start; }
+    .blog-list .blog-title { margin-bottom: 5px; }
+    .blog-list .blog-date { font-size: 0.8em; }
+
+    /* Adjust resource link list for mobile */
+    .resource-link-list li {
+        /* No specific flex changes needed unless dates added */
+         padding-bottom: 8px;
+         margin-bottom: 12px;
+    }
+    .resource-link-list .resource-title {
+        font-size: 1.05em; /* Slightly smaller if needed */
+    }
+
+    .layout-single-column { padding: 30px 20px; }
+    .container.is-expanded .layout-single-column { padding: 30px 5%; } /* Adjust padding */
+
+
+    .post-header .site-title-single::before,
+    .post-header .site-title-single::after { width: 30px; }
+    .post-header .site-title-single::before { left: -25px; }
+    .post-header .site-title-single::after { right: -25px; }
+
+    .expand-button { top: 10px; right: 10px; width: 32px; height: 32px;}
+    .expand-button .expand-collapse-icon { width: 14px; height: 14px; } /* Adjust icon size */
+    .expand-button:hover .tooltip-text { display: none; } /* Hide tooltip on likely touch devices */
+
+    /* Adjust content readability width on smaller expanded screens */
+    .container.is-expanded .post-content,
+    .container.is-expanded .main-content { /* Added .main-content */
+        max-width: 90%;
+    }
+    .container.is-expanded .right-column { /* Apply similar width limit for blog/about/resources on mobile expand*/
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+} /* End of @media query */

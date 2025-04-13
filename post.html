@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title> <!-- JS will update this -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Include KaTeX/Prism CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Container will get 'is-expanded', body will get 'page-expanded' -->
+    <div class="container layout-single-column">
+        <header class="post-header">
+            <!-- Use LaTeX for name -->
+            <h1 class="site-title-single">$Srinivas~Raghav~V~C$</h1>
+            <!-- Removed date from post header for simplicity, can be added if needed -->
+        </header>
+
+        <main class="post-content" id="content">
+            <p>Loading post...</p>
+        </main>
+
+        <footer class="post-footer">
+             <nav class="navigation">
+                <ul>
+                    <!-- Add Home link, update Blog link -->
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="misc.html">Misc</a></li>
+                </ul>
+            </nav>
+        </footer>
+
+        <!-- Expand Button -->
+        <button id="expand-toggle" class="expand-button" title="Expand View">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <!-- Simple Expand Arrows Icon -->
+                 <path d="M16 4h4v4l-2.5-2.5L13 10l-1.5-1.5L16 4zM4 16l4.5 4.5L10 19l-4.5-4.5L4 16zm4-12l-4.5 4.5L5 10l4.5-4.5L8 4zM19 14l-1.5 1.5 4.5 4.5L20 20l-4.5-4.5V14h3z"/>
+             </svg>
+            <span class="tooltip-text">Expand</span>
+        </button>
+
+    </div> <!-- End of div.container -->
+
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@5/marked.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <!-- Shared Custom Script -->
+    <script src="js/main.js"></script>
+
+    <!-- Inline Page-Specific Script -->
+    <script>
+        // Function Specific to Post Page
+        async function loadPost() {
+            const contentElement = document.getElementById('content');
+            const titleElement = document.querySelector('title');
+
+            if (!contentElement || !titleElement) { /* Error handling */ return; }
+
+            const params = new URLSearchParams(window.location.search);
+            const mdFileBase = params.get('md');
+
+            if (!mdFileBase) { /* Error handling */ return; }
+
+            const mdFilePath = `posts/${mdFileBase}.md`;
+
+            // Update title (can be improved)
+            let postTitle = mdFileBase.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            titleElement.textContent = `${postTitle} - Srinivas Raghav V C`;
+
+            // Load content using shared function, enabling math and code
+            if (typeof loadMarkdownContent === 'function') {
+                await loadMarkdownContent(mdFilePath, 'content', true, true);
+            } else { console.error('loadMarkdownContent function not found.'); }
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render static LaTeX elements like the header first
+            if (typeof renderMathInElement === 'function') {
+                 try {
+                     renderMathInElement(document.body, { delimiters: [ { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false } ], throwOnError: false });
+                 } catch (mathError) { console.error("Initial KaTeX rendering failed:", mathError); }
+            } else { console.warn('KaTeX function not found.'); }
+
+            // Load the post content
+            loadPost();
+
+            // Expand Toggle Logic
+            const expandButton = document.getElementById('expand-toggle');
+            const container = document.querySelector('.container');
+            const body = document.body;
+            const tooltip = expandButton ? expandButton.querySelector('.tooltip-text') : null;
+
+            if (expandButton && container && body && tooltip) {
+                expandButton.addEventListener('click', () => {
+                    container.classList.toggle('is-expanded');
+                    body.classList.toggle('page-expanded'); // Use generic class for body
+
+                    if (container.classList.contains('is-expanded')) {
+                        expandButton.title = 'Condense View';
+                        tooltip.textContent = 'Condense';
+                    } else {
+                        expandButton.title = 'Expand View';
+                        tooltip.textContent = 'Expand';
+                    }
+                });
+            } else { console.warn('Expand button/container/body/tooltip not found.'); }
+        });
+    </script>
+</body>
+</html>

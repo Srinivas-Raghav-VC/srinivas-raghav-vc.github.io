@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource</title> <!-- JS will update this -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Include KaTeX/Prism CSS if resource MD might use them -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <!-- Uses single-column layout -->
+    <div class="container layout-single-column">
+        <header class="post-header">
+            <!-- Use LaTeX for name -->
+            <h1 class="site-title-single">$Srinivas~Raghav~V~C$</h1>
+            <!-- Optional date - could be added if resources have dates -->
+        </header>
+
+        <!-- Renamed main content area for clarity -->
+        <main class="main-content" id="content">
+            <p>Loading resource...</p>
+        </main>
+
+        <footer class="post-footer">
+             <nav class="navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="misc.html">Resources</a></li> <!-- Link back to list -->
+                </ul>
+            </nav>
+        </footer>
+
+        <!-- Expand Button - Keep if desired on individual resource pages -->
+        <button id="expand-toggle" class="expand-button" title="Expand View">
+             <svg class="expand-collapse-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                 <line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                 <line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+             </svg>
+            <span class="tooltip-text">Expand</span>
+        </button>
+
+    </div> <!-- End of div.container -->
+
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@5/marked.min.js"></script>
+    <!-- Include KaTeX/Prism JS if needed -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <!-- Shared Custom Script -->
+    <script src="js/main.js"></script>
+
+    <!-- Inline Page-Specific Script -->
+    <script>
+        // Function Specific to Resource Page
+        async function loadResource() {
+            const contentElement = document.getElementById('content');
+            const titleElement = document.querySelector('title');
+
+            if (!contentElement || !titleElement) { /* Error handling */ return; }
+
+            const params = new URLSearchParams(window.location.search);
+            const mdFileBase = params.get('md'); // Expecting ?md=distill etc.
+
+            if (!mdFileBase) { /* Error handling */ return; }
+
+            // ** Construct path to /resources directory **
+            const mdFilePath = `resources/${mdFileBase}.md`;
+
+            // Update title (can be improved by reading H1/H3 from MD)
+            let resourceTitle = mdFileBase.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            titleElement.textContent = `${resourceTitle} - Resource`;
+
+            // Load content using shared function, enabling math/code if needed
+            if (typeof loadMarkdownContent === 'function') {
+                 // Set true/true if resources might contain math/code
+                await loadMarkdownContent(mdFilePath, 'content', true, true);
+            } else { console.error('loadMarkdownContent function not found.'); }
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render static LaTeX elements like the header first
+            if (typeof renderMathInElement === 'function') {
+                 try { renderMathInElement(document.body, { delimiters: [ { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false } ], throwOnError: false });
+                 } catch (mathError) { console.error("Initial KaTeX rendering failed:", mathError); }
+            } else { console.warn('KaTeX function not found.'); }
+
+            // Load the resource content
+            loadResource();
+
+            // Expand Toggle Logic (Same as post.html)
+            const expandButton = document.getElementById('expand-toggle');
+            const container = document.querySelector('.container');
+            const body = document.body;
+            const tooltip = expandButton ? expandButton.querySelector('.tooltip-text') : null;
+
+            if (expandButton && container && body && tooltip) {
+                expandButton.addEventListener('click', () => {
+                    container.classList.toggle('is-expanded');
+                    body.classList.toggle('page-expanded');
+                    if (container.classList.contains('is-expanded')) {
+                        expandButton.title = 'Condense View'; tooltip.textContent = 'Condense';
+                    } else {
+                        expandButton.title = 'Expand View'; tooltip.textContent = 'Expand';
+                    }
+                });
+            } else { console.warn('Expand button/container/body/tooltip not found.'); }
+        });
+    </script>
+</body>
+</html>
