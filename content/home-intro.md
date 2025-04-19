@@ -6,14 +6,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 2em;
+        font-size: 1.1em;
         font-weight: bold;
       }
     </style>
   </head>
   <body>
     <div class="centered">
-      स्वागत || いらっしゃいませ || స్వాగతం
+      स्वागतम् || いらっしゃいませ || స్వాగతం
     </div>
   </body>
 </html>
@@ -24,4 +24,6 @@
 
 *I am Srinivas Raghav V C an undergrad' currently studying computers science.*
 - *Passionate about things in tech, philosophy and understanding myself.*
-- *Understanding components, understanding models and understanding humans has to be the most interesting things there are to explore.*
+- <p style="text-align: left; font-style: italic;">
+  Understanding components, understanding models and understanding humans has to be the most interesting things there are to explore.
+</p>
