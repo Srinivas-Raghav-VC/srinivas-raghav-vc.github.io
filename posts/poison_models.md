@@ -1,6 +1,7 @@
 ## Language models are the new drugs
 
 ### *19th April 2025*
+#### *Srinivas Raghav V C*
 --- 
 
 I was thinking about this lately. It so appears that the LLMs thing has really cruxed into people so bad that people have become over-reliant on it—especially people at the start of a career path and even in the middle of it. They have become excessively over-reliant, and honestly, in some sense, people speak of it as leading to more productivity and independence for businesses and individuals who do not have access to experts.

@@ -381,4 +381,60 @@ a:hover {
         margin: 0 auto;
     }
 
+    /* Dark Mode Styles */
+    body.dark-mode {
+        background-color: #181818;
+        color: #e0e0e0;
+    }
+
+    body.dark-mode .container {
+        background-color: #232323;
+        border-color: #333;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    body.dark-mode a { color: #aad8ff; }
+    body.dark-mode a:hover { color: #fff; }
+
+    body.dark-mode .left-column,
+    body.dark-mode .right-column,
+    body.dark-mode .layout-single-column {
+        background: none;
+        color: #e0e0e0;
+    }
+
+    body.dark-mode .post-content code,
+    body.dark-mode .main-content code {
+        background-color: #222;
+        color: #aad8ff;
+    }
+
+    body.dark-mode .post-content pre,
+    body.dark-mode .main-content pre {
+        background-color: #222;
+        border-color: #444;
+    }
+
+    body.dark-mode .post-content blockquote,
+    body.dark-mode .main-content blockquote {
+        border-left: 3px solid #555;
+        color: #bbb;
+    }
+
+    body.dark-mode .expand-button {
+        background-color: #222;
+        border-color: #444;
+        color: #aad8ff;
+    }
+
+    body.dark-mode .expand-button:hover {
+        background-color: #333;
+    }
+
+    body.dark-mode .site-title,
+    body.dark-mode .site-title-single,
+    body.dark-mode .section-title {
+        color: #aad8ff;
+    }
+
 } /* End of @media query */

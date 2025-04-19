@@ -21,9 +21,12 @@
 <br>
 
 
-
-*I am Srinivas Raghav V C an undergrad' currently studying computers science.*
-- *Passionate about things in tech, philosophy and understanding myself.*
-- <p style="text-align: left; font-style: italic;">
-  Understanding components, understanding models and understanding humans has to be the most interesting things there are to explore.
+<p style="text-align: left; font-style: italic;">
+I am Srinivas Raghav V C an undergrad' currently studying computers science.
 </p>
+<p style="text-align: left; font-style: italic;">
+Passionate about things in tech, philosophy and understanding myself.
+</p>
+<p style="text-align: left; font-style: italic;">
+Understanding components, understanding models and understanding humans has to be the most interesting things there are to explore.
+</p

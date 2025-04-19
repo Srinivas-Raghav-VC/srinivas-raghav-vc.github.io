@@ -1,11 +1,17 @@
-https://antaripasaha.notion.site/Antaripa-Saha-1b21cb2802724f4482d24b165f72c740
+- [CPU.land](https://cpu.land/)   
+- [Under the Hood – Mohit Mishra](https://mohitmishra786.github.io/UnderTheHood/)  
+- [DeepC Slides (2011) – Øyvind Mæhle](https://www.pvv.org/~oma/DeepC_slides_oct2011.pdf)  
 
-https://cpu.land/
+---
 
-https://dsa.shvnk.in/
+- [Data Structure Flash Card's](https://dsa.shvnk.in/)  
 
-https://www.pvv.org/~oma/DeepC_slides_oct2011.pdf
+---
 
-https://lemire.me/blog/
+- [Daniel Lemire’s Blog](https://lemire.me/blog/)  
 
-https://mohitmishra786.github.io/UnderTheHood/
+---
+
+- [Antaripa Saha’s Notion](https://antaripasaha.notion.site/Antaripa-Saha-1b21cb2802724f4482d24b165f72c740)  
+    
+---
