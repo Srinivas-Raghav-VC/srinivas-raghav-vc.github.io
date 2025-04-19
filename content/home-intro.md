@@ -1,3 +1,5 @@
-Welcome. This space is a collection of thoughts, explorations, and notes primarily focusing on technology, data, and the process of learning itself.
+                                    स्वागत || いらっしゃいませ || స్వాగతం
 
-Feel free to explore the different sections using the links below.
+*I am Srinivas Raghav V C an undergrad' currently studying computers science.*
+- *Passionate about things in tech, philosophy and understanding myself.*
+- *Understanding components, understanding models and understanding humans has to be the most interesting things there are to explore.*

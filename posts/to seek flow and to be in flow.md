@@ -1,4 +1,6 @@
+## To seek flow and to be in flow
 
+### *19th April 2025*
 ---
 
 Was seeing a video discussing the genius pair programmers Jeff Dean and Sanjay have made through the years in Google, and the work that they have done has in literal sense shaped the modern world in ways we take for granted.
