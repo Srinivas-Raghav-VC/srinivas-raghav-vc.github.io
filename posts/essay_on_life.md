@@ -1,7 +1,10 @@
-
----
-
 ## An Essay on a Reflection of Life at This Point
+
+
+### *19th April 2025*
+#### *Srinivas Raghav V C*
+
+---- 
 
 The question one Immanuel Kant asked a noble person, who came to seek advice from him, being not happy even though he had a lot of things that many guys wished for, he was unhappy about his job even though it had all the things people wish for,
 
