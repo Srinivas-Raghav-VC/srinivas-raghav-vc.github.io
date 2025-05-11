@@ -60,7 +60,7 @@ async function loadMarkdownContent(file, targetElementId, renderMath = false, hi
         const markdown = await response.text();
 
         // Render markdown content
-        targetElement.innerHTML = marked.parse(markdown);
+        targetElement.innerHTML = marked.parse(markdown, { mangle: false, headerIds: false });
 
         // --- Optional Post-Processing ---
 

@@ -72,10 +72,21 @@
   <div class="image-item wide">
     <img src="/posts/3.png" alt="Image 3" title="Image 3">
   </div>
-  <div class="image-item medium">
+  <div class="image-item wide">
     <img src="/posts/Partha-Sarathi-scaled.jpg" alt="Image 5" title="Image 5">
   </div>
-
+  <div class="image-item medium">
+    <img src="/posts/art_buddha.jpg" alt="Image 6" title="Image 6">
+  </div>
+  <div class="image-item">
+    <img src="/posts/body_yoga_mind.jpg" alt="Image 7" title="Image 7">
+  </div>
+  <div class="image-item">
+    <img src="/posts/van_gough.jpg" alt="Image 9" title="Image 9">
+  </div>
+  <div class="image-item medium">
+    <img src="/posts/space_1.jpg" alt="Image 8" title="Image 8">
+  </div>
   <!-- Medium width image example:
   <div class="image-item medium">
     <img src="/posts/5.jpg" alt="Image 5" title="Image 5">

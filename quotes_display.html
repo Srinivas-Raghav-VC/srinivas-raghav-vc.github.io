@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srinivas Raghav V C - Quotes</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
+    <style>
+        .markdown-content {
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .markdown-content p {
+            margin-bottom: 1em;
+        }        .markdown-content blockquote {
+            margin: 1.5em 0;
+            padding: 0.8em 1.5em;
+            border-left: 3px solid #333333; /* Changed to black */
+            background-color: rgba(51, 51, 51, 0.05); /* Light black background */
+            font-style: italic;
+            color: #333333; /* Black text */
+            position: relative;
+        }
+        .markdown-content blockquote p {
+            margin: 0 0 0.5em 0;
+        }
+        .quote-section {
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #eee;
+        }
+        .quote-section:last-child {
+            border-bottom: none;
+        }
+        /* Removed the green quote-of-day styling */          .quote-of-day {
+            padding: 1em;
+            border-radius: 0.5em;
+            margin-bottom: 2em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(51, 51, 51, 0.3); /* Light black border */
+            border-left: 3px solid #333333; /* Black left border */
+            background-color: rgba(51, 51, 51, 0.05); /* Light black background */
+        }.quote-of-day h3 {
+            margin-top: 0;
+            color: #333333; /* Black to match theme */
+            font-style: italic;
+            font-weight: 500;
+        }/* Expand/collapse transition styles */
+        #all-quotes-container {
+            display: none; /* Default hide with display for browsers without JS */
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease, max-height 0.5s ease;
+            margin-top: 20px;
+            will-change: opacity, max-height;
+            transform: translateZ(0);
+        }
+
+        .container.is-expanded #all-quotes-container {
+            display: block !important; /* Force display when expanded */
+            opacity: 1;
+            max-height: 10000px; /* Large enough to contain all quotes */
+        }/* Expand button styling from about.html */
+        .expand-button {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background-color: rgba(230, 230, 230, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            color: #333;
+            outline: none;
+        }
+
+        .expand-button:hover {
+            background-color: rgba(200, 200, 200, 0.9);
+        }
+
+        /* Tooltip for the expand button */
+        .tooltip-text {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+
+        .expand-button:hover .tooltip-text {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container layout-two-column">
+        <aside class="left-column">
+            <h1 class="site-title">Srinivas Raghav V C</h1>
+            <div class="date-header" id="current-date">Date loading...</div>
+            <nav class="navigation">
+                 <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html">Blogs</a></li>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="misc.html">Misc</a></li>
+                    <li><a href="life_in_weeks.html">Life in Weeks !</a></li>
+                    <li><a href="quotes_display.html" class="active">Quotes</a></li>
+                </ul>
+            </nav>
+            <div class="intro-text" id="intro-content">
+                <p>Loading intro...</p>
+            </div>
+        </aside>
+        
+        <main class="right-column">
+            <h2 class="section-title">QUOTES</h2>
+            
+            <!-- Quote of the day section - now styled neutrally -->
+            <div class="quote-of-day" id="quote-of-day">
+                <h3>Quote of the Day</h3>
+                <blockquote>
+                    <p id="daily-quote-text">Loading today's wisdom...</p>
+                    <footer id="daily-quote-author">— </footer>
+                </blockquote>
+            </div>
+            
+            <!-- All quotes section - now works with is-expanded class -->
+            <div id="all-quotes-container">
+                <h2 class="section-title">ALL QUOTES</h2>
+                <div id="quotes-content-container" class="markdown-content">
+                    <p>Loading all quotes...</p>
+                </div>
+            </div>
+        </main>        <!-- Expand Button matching about.html -->
+        <button id="expand-toggle" class="expand-button" title="Expand View">
+            <!-- Simple inline SVG icon (+) matching about.html -->
+            <svg class="expand-collapse-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <!-- Vertical line -->
+                <line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <!-- Horizontal line -->
+                <line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="tooltip-text">Expand</span>
+        </button>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@5/marked.min.js"></script>
+    <!-- Include KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Shared Custom Script -->
+    <script src="js/main.js"></script>
+
+    <!-- Inline Page-Specific Script -->
+    <script>
+        const introMarkdownFile = 'content/intro-blurb.md';
+        const quotesMarkdownFile = 'content/quotes.md';
+        const quotesContainerId = 'quotes-content-container';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update date
+            const dateElement = document.getElementById('current-date');
+            if (dateElement && typeof formatDate === 'function') {
+                dateElement.textContent = formatDate(new Date());
+            } else if(dateElement) { dateElement.textContent = 'Date Error'; }
+
+            // Load intro content
+            if (typeof loadMarkdownContent === 'function') {
+                loadMarkdownContent(introMarkdownFile, 'intro-content');
+            } else { console.error('loadMarkdownContent function for intro not found.'); }
+
+            // Load and process quotes
+            loadQuotes();            // Setup expand toggle button (matching implementation in about.html)
+            const expandButton = document.getElementById('expand-toggle');
+            const container = document.querySelector('.container');
+            const body = document.body;
+            const tooltip = expandButton ? expandButton.querySelector('.tooltip-text') : null;
+
+            if (expandButton && container && body && tooltip) {
+                expandButton.addEventListener('click', () => {
+                    container.classList.toggle('is-expanded'); // Toggles container styles
+                    body.classList.toggle('page-expanded');    // Toggles body styles
+
+                    // Update tooltip text and button title
+                    if (container.classList.contains('is-expanded')) {
+                        expandButton.title = 'Condense View';
+                        tooltip.textContent = 'Condense';
+                    } else {
+                        expandButton.title = 'Expand View';
+                        tooltip.textContent = 'Expand';
+                    }
+                });
+            } else { 
+                console.warn('Expand button/container/body/tooltip not found.'); 
+            }
+        });
+
+        function loadQuotes() {
+            const dailyQuoteTextEl = document.getElementById('daily-quote-text');
+            const dailyQuoteAuthorEl = document.getElementById('daily-quote-author');
+            const quotesContainer = document.getElementById(quotesContainerId);
+
+            const cachedQuotes = localStorage.getItem('cached_quotes');
+            let processedCache = false;
+
+            if (cachedQuotes) {
+                try {
+                    // Attempt to process cached quotes first for immediate display
+                    processQuotes(cachedQuotes);
+                    processedCache = true; 
+                } catch (e) {
+                    console.warn("Error processing cached quotes:", e);
+                    localStorage.removeItem('cached_quotes'); // Clear potentially bad cache
+                    // Set error message if cache processing fails and before fetch
+                    if (dailyQuoteTextEl) dailyQuoteTextEl.textContent = 'Error loading cached quote.';
+                    if (dailyQuoteAuthorEl) dailyQuoteAuthorEl.textContent = '—';
+                }
+            } else {
+                // If no cache, set initial loading message or a placeholder
+                if (dailyQuoteTextEl) dailyQuoteTextEl.textContent = 'Fetching today\'s wisdom...';
+                if (dailyQuoteAuthorEl) dailyQuoteAuthorEl.textContent = '—';
+            }
+
+            fetch(quotesMarkdownFile)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok for ${quotesMarkdownFile}: ${response.status} ${response.statusText}`);
+                    }
+                    return response.text();
+                })
+                .then(markdown => {
+                    if (markdown.trim() === "") {
+                        console.warn(`${quotesMarkdownFile} is empty.`);
+                        if (!processedCache) { // Only update if cache wasn't successfully processed
+                            if (dailyQuoteTextEl) dailyQuoteTextEl.textContent = 'Quotes file is empty.';
+                            if (dailyQuoteAuthorEl) dailyQuoteAuthorEl.textContent = '—';
+                        }
+                        if (quotesContainer) quotesContainer.innerHTML = '<p>No quotes found in the file.</p>';
+                        localStorage.removeItem('cached_quotes'); // Remove empty cache
+                        return; 
+                    }
+                    localStorage.setItem('cached_quotes', markdown);
+                    processQuotes(markdown); // Process fresh markdown
+                })
+                .catch(error => {
+                    console.error(`Error loading or processing ${quotesMarkdownFile}:`, error);
+                    if (!processedCache) { // Only update if cache wasn't successfully processed
+                        if (dailyQuoteTextEl) dailyQuoteTextEl.textContent = 'Failed to load quotes.';
+                        if (dailyQuoteAuthorEl) dailyQuoteAuthorEl.textContent = '—';
+                    }
+                    if (quotesContainer) quotesContainer.innerHTML = 
+                        '<p>Could not load quotes at this time. Please check the console for errors.</p>';
+                });
+        }
+
+        function processQuotes(markdown) {
+            const quotesContainer = document.getElementById(quotesContainerId);
+            const dailyQuoteTextEl = document.getElementById('daily-quote-text');
+            const dailyQuoteAuthorEl = document.getElementById('daily-quote-author');
+            
+            // Set a default/fallback message for the daily quote section
+            if (dailyQuoteTextEl) dailyQuoteTextEl.textContent = 'Could not load daily quote.';
+            if (dailyQuoteAuthorEl) dailyQuoteAuthorEl.textContent = '—';
+
+            // Regex to find quotes: expects "> text\n>\n> — author\n\n" - updated for CRLF/LF and whitespace
+            const quoteMatches = markdown.match(/> ([\s\S]*?)(?:\r?\n>\s*\r?\n> — )(.*?)(?:(?:\r?\n){2}|$)/gs);
+            
+            if (quoteMatches && quoteMatches.length > 0) {
+                const randomIndex = Math.floor(Math.random() * quoteMatches.length);
+                const randomQuoteString = quoteMatches[randomIndex];
+                
+                // Regex to extract text from the randomQuoteString: "> (TEXT)\n>" - updated for CRLF/LF
+                const quoteTextMatch = randomQuoteString.match(/> ([\s\S]*?)(?:\r?\n>)/s);
+                // Regex to extract author from the randomQuoteString: "> — (AUTHOR)(\n\n|$)" - updated for CRLF/LF
+                const quoteAuthorMatch = randomQuoteString.match(/> — (.*?)(?:(?:\r?\n){2}|$)/s);                    if (quoteTextMatch && quoteTextMatch[1] && quoteAuthorMatch && quoteAuthorMatch[1]) {
+                    let rawQuoteText = quoteTextMatch[1];
+                    // Clean up the quote text: remove "> " from internal subsequent lines and trim - updated for CRLF/LF
+                    let cleanedQuoteText = rawQuoteText.replace(/\r?\n> /g, '\n').trim();
+                    // Remove any leading/trailing newlines that might be artifacts
+                    cleanedQuoteText = cleanedQuoteText.replace(/^\n+|\n+$/g, '');
+
+                    const rawAuthor = quoteAuthorMatch[1];
+                    const cleanedAuthor = rawAuthor.trim();
+                      if (dailyQuoteTextEl) {
+                        dailyQuoteTextEl.textContent = cleanedQuoteText;
+                        dailyQuoteTextEl.style.color = '#333333'; // Black color to match theme
+                        dailyQuoteTextEl.style.fontWeight = '500'; // Add weight to make it stand out
+                    }
+                    if (dailyQuoteAuthorEl) {
+                        dailyQuoteAuthorEl.textContent = `— ${cleanedAuthor}`;
+                        dailyQuoteAuthorEl.style.fontWeight = '500';
+                    }
+                } else {
+                    console.warn('Failed to parse text or author from the selected random quote. Structure might be off.');
+                    console.log('Random quote string attempt:', randomQuoteString);
+                    console.log('Attempted quote text match:', quoteTextMatch);
+                    console.log('Attempted quote author match:', quoteAuthorMatch);
+                    // dailyQuoteTextEl already has a fallback message
+                }
+            } else {
+                console.warn('No quotes found in the markdown content matching the expected pattern (/> text\n>\n> — author\n\n|$).');
+                // dailyQuoteTextEl already has a fallback message
+            }
+            
+            // Process the full markdown with marked.js for "All Quotes" section
+            if (typeof marked !== 'undefined' && quotesContainer) {
+                quotesContainer.innerHTML = marked.parse(markdown);
+                
+                // Apply KaTeX rendering where specified
+                if (typeof renderMathInElement === 'function') {
+                    setTimeout(() => { // Delay to ensure DOM is updated
+                        try {
+                            renderMathInElement(document.body, { // document.body ensures daily quote is also processed
+                                delimiters: [
+                                    { left: "$$", right: "$$", display: true },
+                                    { left: "$", right: "$", display: false }
+                                ],
+                                throwOnError: false
+                            });
+                        } catch (mathError) {
+                            console.error("KaTeX rendering failed in processQuotes:", mathError);
+                        }
+                    }, 100);
+                } else {
+                    console.warn('renderMathInElement function not found for KaTeX.');
+                }
+            } else if (quotesContainer) {
+                quotesContainer.innerHTML = '<p>Markdown rendering library (marked.js) not available.</p>';
+                console.error('marked.js not found for quotes processing.');
+            }
+        }
+    </script>
+</body>
+</html>

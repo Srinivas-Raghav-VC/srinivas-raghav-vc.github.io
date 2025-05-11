@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srinivas Raghav V C - Life in Weeks</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
+    <style>
+        /* Specific styles for life in weeks visualization */
+        .life-overview {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .life-question {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 18px;
+            margin: 25px 0 15px;
+            color: var(--text-color);
+        }
+
+        .progress-container {
+            width: 80%;
+            height: 24px;
+            background-color: #e9ecef;
+            border-radius: 12px;
+            margin: 30px auto;
+            overflow: hidden;
+            position: relative;
+            will-change: transform;
+            transform: translateZ(0);
+        }        .progress-bar {
+            height: 100%;
+            background-color: #333333; /* Changed to black color */
+            border-radius: 12px 0 0 12px;
+            transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            will-change: transform, width;
+            transform: translateZ(0);
+        }
+
+        .progress-text {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 16px;
+            color: #495057;
+        }
+
+        /* Weeks visualization styles - Improved transitions */
+        .weeks-visualization {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+            margin-top: 20px;
+            will-change: max-height, opacity;
+            transform: translateZ(0);
+        }
+
+        .container.is-expanded .weeks-visualization {
+            opacity: 1;
+            max-height: 3000px; /* Large enough to contain content */
+        }
+
+        #life-title {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #212529;
+        }        .urgency-highlight {
+            color: #b20c0c;
+            font-weight: 500;
+        }
+
+        .weeks-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 30px;
+            max-width: 95%;
+            contain: layout style;
+        }
+
+        .year-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .year-label {
+            font-size: 10px;
+            margin-bottom: 4px;
+            color: #6c757d;
+        }
+
+        .weeks-in-year {
+            display: grid;
+            grid-template-columns: repeat(4, 6px);
+            grid-template-rows: repeat(13, 6px);
+            gap: 2px;
+        }
+
+        .week-square {
+            width: 6px;
+            height: 6px;
+            border-radius: 1px;
+            transition: transform 0.2s;
+        }
+
+        .past-week {
+            background-color: #00530d;        }        .future-week {
+            background-color: rgba(51, 51, 51, 0.2); /* Light version of black */
+        }
+
+        .week-square:hover {
+            transform: scale(1.8);
+            z-index: 10;
+        }        /* Expand button styling */        .expand-button {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background-color: rgba(230, 230, 230, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            color: #333;
+            outline: none;
+        }
+        
+        .expand-button:hover {
+            background-color: rgba(200, 200, 200, 0.9);
+        }
+          /* Style the simple inline SVG icon */
+        .expand-button .expand-collapse-icon {
+            width: 16px;  /* Adjust size as needed */
+            height: 16px; /* Adjust size as needed */
+            display: block;
+            /* Lines inside SVG use 'currentColor' for stroke, inheriting from button */
+            transition: transform 0.3s ease-in-out; /* Smooth rotation */
+        }
+        
+        /* Rotate icon when expanded */
+        .container.is-expanded .expand-button .expand-collapse-icon {
+            transform: rotate(45deg); /* Rotating '+' by 45deg makes an 'X' */
+        }
+        
+        /* Tooltip for the expand button */
+        .tooltip-text {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+
+        .expand-button:hover .tooltip-text {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Navigation footer that appears when expanded - Themed */
+        .expanded-nav-footer {
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
+            background-color: var(--background-color); /* Match site background */
+            border-top: 1px solid var(--accent-color-dark); /* Match site accents */
+            padding: 0;
+            margin-top: 30px; /* Increased margin */
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .container.is-expanded .expanded-nav-footer {
+            height: auto;
+            opacity: 1;
+            padding: 20px 0; /* Increased padding */
+        }
+        
+        .expanded-nav-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px; /* Increased gap */
+            margin: 0;
+            padding: 0;
+            list-style: none; /* Ensure no bullets if it were a ul */
+        }
+        
+        .expanded-nav-links a {
+            color: var(--text-color); /* Match site text color */
+            text-decoration: none;
+            padding: 8px 15px; /* Adjusted padding */
+            border-radius: 5px; /* Consistent border-radius */
+            transition: all 0.2s ease;
+            font-family: var(--font-main); /* Consistent font */
+            font-size: 1em; /* Consistent font size */
+        }
+        
+        .expanded-nav-links a:hover,
+        .expanded-nav-links a:focus { /* Added focus state */
+            background-color: var(--accent-color-light-translucent); /* Match site hover */
+            color: var(--accent-color-dark); /* Match site hover text */
+            transform: translateY(-2px); /* Subtle hover effect */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+        
+        .expanded-nav-links a.active {
+            font-weight: bold;
+            color: var(--accent-color); /* Match active link color */
+            background-color: transparent; /* Ensure no background override */
+            border-bottom: 2px solid var(--accent-color); /* Underline for active */
+            padding-bottom: 6px; /* Adjust padding for underline */
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Container will get 'is-expanded', body will get 'page-expanded' -->
+    <div class="container layout-two-column">
+        <aside class="left-column">
+            <!-- Use LaTeX for name -->
+            <h1 class="site-title">Srinivas Raghav V C</h1>
+            <div class="date-header" id="current-date">Date loading...</div>
+            <nav class="navigation">
+                 <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html">Blogs</a></li>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="misc.html">Misc</a></li>
+                    <li><a href="life_in_weeks.html">Life in Weeks !</a></li>
+                    <li><a href="quotes_display.html">Quotes</a></li>
+                </ul>
+            </nav>
+            <div class="intro-text" id="intro-content">
+                <p>Loading intro...</p>
+            </div>
+        </aside>
+        
+        <main class="right-column">
+            <h2 class="section-title">LIFE IN WEEKS</h2>
+            
+            <!-- Condensed view (always visible) -->
+            <div class="life-overview">
+                <div class="progress-container">
+                    <div class="progress-bar" id="life-progress-bar"></div>
+                </div>
+                <p class="progress-text" id="life-progress-text"></p>
+               
+            </div>
+
+            <!-- Expanded view (visible only when expanded) -->
+            <div class="weeks-visualization">
+                <h3 id="life-title">Loading weeks...</h3>
+                    <h3> Make it Worth It.</h3>
+
+                <div class="weeks-grid" id="weeks-grid">
+                    <!-- Week squares generated by JS -->
+                </div>
+                
+                <!-- Navigation footer that appears when expanded -->
+                <div class="expanded-nav-footer">
+                    <div class="expanded-nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="blog.html">Blogs</a>
+                        <a href="about.html">About Me</a>
+                        <a href="misc.html">Misc</a>
+                        <a href="life_in_weeks.html" class="active">Life in Weeks</a>
+                        <a href="quotes_display.html">Quotes</a>
+                    </div>
+                </div>
+            </div>
+        </main>        <!-- Expand Button with simple SVG icon to match about.html -->
+        <button id="expand-toggle" class="expand-button" title="Expand View">
+            <svg class="expand-collapse-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <!-- Vertical line -->
+                <line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <!-- Horizontal line -->
+                <line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="tooltip-text">Expand</span>
+        </button>
+
+    </div> <!-- End of div.container -->
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@5/marked.min.js"></script>
+    <!-- Include KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Shared Custom Script -->
+    <script src="js/main.js"></script>
+
+    <!-- Inline Page-Specific Script -->
+    <script>
+        // Configuration
+        const userName = "Srinivas";
+        const birthYear = 2005;
+        const birthMonth = 3; // 0-indexed: 0 for Jan, 3 for April
+        const birthDay = 24;   
+        const lifeExpectancyYears = 80;
+        const weeksInYearDisplay = 52;
+        const introMarkdownFile = 'content/intro-blurb.md';
+        
+        // Optimized DOM selectors - cache them at start
+        let cachedElements = {};
+        let quoteSuccessfullyDisplayed = false; // Flag to track if the quote display is finalized
+        
+        function getElement(id) {
+            if (!cachedElements[id]) {
+                cachedElements[id] = document.getElementById(id);
+            }
+            return cachedElements[id];
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update date
+            const dateElement = getElement('current-date');
+            if (dateElement && typeof formatDate === 'function') {
+                dateElement.textContent = formatDate(new Date());
+            } else if(dateElement) { dateElement.textContent = 'Date Error'; }
+
+            // Load intro content
+            if (typeof loadMarkdownContent === 'function') {
+                loadMarkdownContent(introMarkdownFile, 'intro-content');
+            } else { console.error('loadMarkdownContent function not found.'); }
+
+            // Date calculations
+            const birthDate = new Date(birthYear, birthMonth, birthDay);
+            const currentDate = new Date();
+            const endDate = new Date(birthDate.getFullYear() + lifeExpectancyYears, birthDate.getMonth(), birthDate.getDate());
+            const msPerWeek = 1000 * 60 * 60 * 24 * 7;
+            
+            let weeksPassed = Math.floor((currentDate.getTime() - birthDate.getTime()) / msPerWeek);
+            weeksPassed = Math.max(0, weeksPassed);
+            
+            const totalWeeksInLifeExact = Math.floor((endDate.getTime() - birthDate.getTime()) / msPerWeek);
+            let weeksRemainingExact = totalWeeksInLifeExact - weeksPassed;
+            weeksRemainingExact = Math.max(0, weeksRemainingExact);
+
+            // Update progress bar with smooth animation
+            const progressBar = getElement('life-progress-bar');
+            const progressText = getElement('life-progress-text');
+            const percentLived = (weeksPassed / totalWeeksInLifeExact) * 100;
+            
+            if (typeof displayRandomQuote === 'function') {
+                displayRandomQuote();
+            } else {
+                console.warn("displayRandomQuote function not defined, implementing locally");
+                // Implement the displayRandomQuote function locally if it's not available
+                displayRandomQuote();
+            }
+            
+            if (progressBar) {
+                // Use setTimeout with minimal delay to ensure CSS transition works
+                setTimeout(() => {
+                    progressBar.style.width = `${percentLived.toFixed(1)}%`;
+                }, 50);
+            }
+            
+            if (progressText) {
+                progressText.textContent = 
+                    `${weeksPassed.toLocaleString()} of ${totalWeeksInLifeExact.toLocaleString()} weeks lived (${percentLived.toFixed(1)}%)`;
+            }
+
+            // Update title in expanded view
+            const lifeTitleElement = getElement('life-title');
+            if (lifeTitleElement) {
+                lifeTitleElement.innerHTML = 
+                    `Srinivas, only <span class="urgency-highlight">${weeksRemainingExact.toLocaleString()} weeks</span> remain.`;
+            }            // Load and display quote on initial page load
+
+            
+            generateWeeksGrid(weeksPassed);
+            setupExpandToggle(); // Expand toggle will not reload the quote
+            
+            // General KaTeX rendering for other parts of the page if needed
+            // This ensures any other LaTeX content on the page is rendered.
+            // The random quote's KaTeX is handled specifically in processQuoteMarkdown.
+            if (typeof renderMathInElement === 'function') {
+                setTimeout(() => { // Delay to ensure all DOM updates are processed
+                    try {
+                        renderMathInElement(document.body, { 
+                            delimiters: [
+                                { left: "$$", right: "$$", display: true },
+                                { left: "$", right: "$", display: false }
+                            ],
+                            throwOnError: false
+                        });
+                    } catch (mathError) { console.error("General KaTeX rendering failed:", mathError); }
+                }, 200); // Adjusted delay
+            }
+        });
+        
+        // Separated functions for better organization and performance
+        
+        
+        function generateWeeksGrid(weeksPassed) {
+            const weeksGridElement = getElement('weeks-grid');
+            if (!weeksGridElement) return;
+            
+            // Clear existing content
+            weeksGridElement.innerHTML = '';
+            
+            // Use document fragment
+            const fragment = document.createDocumentFragment();
+            const startDisplayYear = birthYear;
+            
+            // Build HTML string for better performance
+            for (let i = 0; i < lifeExpectancyYears; i++) {
+                const yearColumn = document.createElement('div');
+                yearColumn.className = 'year-column';
+                
+                const yearLabel = document.createElement('div');
+                yearLabel.className = 'year-label';
+                yearLabel.textContent = startDisplayYear + i;
+                yearColumn.appendChild(yearLabel);
+                
+                // Create weeks grid with innerHTML for better performance
+                const weeksInYearDiv = document.createElement('div');
+                weeksInYearDiv.className = 'weeks-in-year';
+                
+                let weekSquaresHTML = '';
+                for (let w = 0; w < weeksInYearDisplay; w++) {
+                    const overallWeekIndex = i * weeksInYearDisplay + w;
+                    const className = overallWeekIndex < weeksPassed ? 'week-square past-week' : 'week-square future-week';
+                    weekSquaresHTML += `<div class="${className}"></div>`;
+                }
+                
+                weeksInYearDiv.innerHTML = weekSquaresHTML;
+                yearColumn.appendChild(weeksInYearDiv);
+                fragment.appendChild(yearColumn);
+            }
+            
+            // Append all at once
+            weeksGridElement.appendChild(fragment);
+        }
+          // Function to display a random quote
+        function displayRandomQuote() {
+            // We'll fetch quotes from content/quotes.md
+            const quotesMarkdownFile = 'content/quotes.md';
+            
+            // Use cached quotes if available
+            const cachedQuotes = localStorage.getItem('cached_quotes');
+            
+            if (cachedQuotes) {
+                try {
+                    // Process cached quotes right away for immediate display
+                    processQuoteMarkdown(cachedQuotes);
+                } catch (e) {
+                    console.warn("Error processing cached quotes:", e);
+                    localStorage.removeItem('cached_quotes'); // Clear bad cache
+                    fetchQuotes(); // Try to fetch fresh quotes
+                }
+            } else {
+                fetchQuotes(); // No cached quotes, fetch fresh ones
+            }
+            
+            // Helper function to fetch quotes
+            function fetchQuotes() {
+                fetch(quotesMarkdownFile)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Network response was not ok for ${quotesMarkdownFile}`);
+                        }
+                        return response.text();
+                    })
+                    .then(markdown => {
+                        if (markdown.trim() === "") {
+                            console.warn(`${quotesMarkdownFile} is empty.`);
+                            return;
+                        }
+                        localStorage.setItem('cached_quotes', markdown);
+                        processQuoteMarkdown(markdown);
+                    })
+                    .catch(error => {
+                        console.error(`Error loading quotes from ${quotesMarkdownFile}:`, error);
+                    });
+            }
+            
+            // Helper function to process the quotes markdown and select a random quote
+            function processQuoteMarkdown(markdown) {
+                // Regex to find quotes: expects "> text\n>\n> — author\n\n" - handles both CRLF/LF
+                const quoteMatches = markdown.match(/> ([\s\S]*?)(?:\r?\n>\s*\r?\n> — )(.*?)(?:(?:\r?\n){2}|$)/gs);
+                
+                if (quoteMatches && quoteMatches.length > 0) {
+                    // Select a random quote
+                    const randomIndex = Math.floor(Math.random() * quoteMatches.length);
+                    const randomQuoteString = quoteMatches[randomIndex];
+                    
+                    // Extract text and author from the quote string
+                    const quoteTextMatch = randomQuoteString.match(/> ([\s\S]*?)(?:\r?\n>)/s);
+                    const quoteAuthorMatch = randomQuoteString.match(/> — (.*?)(?:(?:\r?\n){2}|$)/s);
+                    
+                    if (quoteTextMatch && quoteTextMatch[1] && quoteAuthorMatch && quoteAuthorMatch[1]) {
+                        // Clean up and display the quote
+                        let rawQuoteText = quoteTextMatch[1];
+                        let cleanedQuoteText = rawQuoteText.replace(/\r?\n> /g, '\n').trim();
+                        cleanedQuoteText = cleanedQuoteText.replace(/^\n+|\n+$/g, '');
+                        
+                        const rawAuthor = quoteAuthorMatch[1];
+                        const cleanedAuthor = rawAuthor.trim();
+                          // Add the quote to the expanded view (weeks-visualization)
+                        const quoteContainer = document.createElement('div');
+                        quoteContainer.className = 'quote-container';
+                        quoteContainer.style.cssText = 'margin: 20px auto; max-width: 80%; padding: 15px 20px; border-left: 3px solid #333333; background-color: rgba(51, 51, 51, 0.05); font-style: italic; position: relative; overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap;';
+                        
+                        const quoteTextElement = document.createElement('p');
+                        quoteTextElement.className = 'quote-text';
+                        quoteTextElement.textContent = cleanedQuoteText;
+                        quoteTextElement.style.cssText = 'color: #333333; font-weight: 500;';
+                        
+                        const quoteAuthorElement = document.createElement('p');
+                        quoteAuthorElement.className = 'quote-author';
+                        quoteAuthorElement.textContent = `— ${cleanedAuthor}`;
+                        quoteAuthorElement.style.cssText = 'margin-top: 10px; text-align: right; font-style: normal; font-weight: 500;';
+                        
+                        quoteContainer.appendChild(quoteTextElement);
+                        quoteContainer.appendChild(quoteAuthorElement);
+                        
+                        // Add the quote right after the life-title
+                        const weeksVisualizationElement = document.querySelector('.weeks-visualization');
+                        if (weeksVisualizationElement) {                            // Get the life-title element
+                            const lifeTitleElement = weeksVisualizationElement.querySelector('#life-title');
+                            // Get the weeks-grid element that follows the life-title
+                            const weeksGridElement = weeksVisualizationElement.querySelector('.weeks-grid');
+                            
+                            if (lifeTitleElement && weeksGridElement) {
+                                // Insert between the life-title and weeks-grid
+                                weeksVisualizationElement.insertBefore(quoteContainer, weeksGridElement);
+                            } else if (lifeTitleElement) {
+                                // If weeks-grid is not found, insert after life-title
+                                const nextElement = lifeTitleElement.nextSibling;
+                                if (nextElement) {
+                                    weeksVisualizationElement.insertBefore(quoteContainer, nextElement);
+                                } else {
+                                    weeksVisualizationElement.appendChild(quoteContainer);
+                                }
+                            } else {
+                                // Fallback: Insert before the expanded-nav-footer if it exists
+                                const navFooter = weeksVisualizationElement.querySelector('.expanded-nav-footer');
+                                if (navFooter) {
+                                    weeksVisualizationElement.insertBefore(quoteContainer, navFooter);
+                                } else {
+                                    weeksVisualizationElement.appendChild(quoteContainer);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        function setupExpandToggle() {
+            const expandButton = getElement('expand-toggle');
+            const container = document.querySelector('.container');
+            const body = document.body;
+            const tooltip = expandButton ? expandButton.querySelector('.tooltip-text') : null;
+
+            if (!expandButton || !container || !body || !tooltip) {
+                console.warn('Expand toggle elements not found');
+                return;
+            }
+            
+            expandButton.addEventListener('click', () => {
+                requestAnimationFrame(() => {
+                    container.classList.toggle('is-expanded');
+                    body.classList.toggle('page-expanded');
+                    
+                    const isExpanded = container.classList.contains('is-expanded');
+                    expandButton.title = isExpanded ? 'Condense View' : 'Expand View';
+                    tooltip.textContent = isExpanded ? 'Condense' : 'Expand';
+
+                    // Quote loading is now handled on DOMContentLoaded and is independent of expand/collapse
+                });
+            });
+        }
+    </script>
+</body>
+</html>
