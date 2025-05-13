@@ -1,6 +1,6 @@
 ## A Revision Tracker for your notes and slides
 
-### *19th April 2025*
+### *10th May 2025*
 #### *Srinivas Raghav V C*
 
 ---- 
