@@ -7,7 +7,7 @@
 ---- 
 
 
-i am fighthing a very man inside  
+i am fighthing the very man inside  
 that wants me to lose myself 
 
 i am fighting the very man inside  
