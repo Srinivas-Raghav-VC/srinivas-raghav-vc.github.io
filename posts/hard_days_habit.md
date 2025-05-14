@@ -6,7 +6,7 @@
 
 ---- 
 
-#### This is a a write of post is a transcribe of a youtube video I stumbled, felt it spoke a lot on the intent of one with consitent habit, and what it really is to build to endure, I belive one should definitely give this a watch.
+#### This is a post on a transcribe of a youtube video I stumbled, felt it spoke a lot on the intent of one to have a consitent habit, and what it really is to build one, I belive one should definitely give this a watch.
 
 
 
