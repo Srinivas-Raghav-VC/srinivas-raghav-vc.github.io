@@ -1,4 +1,4 @@
-/* General Styles */
+/* --- General Styles --- */
 body {
     font-family: Georgia, 'Times New Roman', Times, serif;
     line-height: 1.6;
@@ -15,15 +15,17 @@ body {
     transition: background-color 0.3s ease; /* Smooth transition for expand */
 }
 
-/* Style body when a page container is expanded */
-body.page-expanded {
-    padding-top: 0;
-    padding-bottom: 0;
-    /* Match container background if it differs, otherwise inherit */
-    background-color: #fdfcf6;
+/* --- Links --- */
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
+a:hover {
+    text-decoration: underline;
+}
 
+/* --- Layout: Container --- */
 .container {
     background-color: #fdfcf6; /* Match body or slightly different */
     border: 1px solid #e0e0e0; /* Subtle border */
@@ -36,17 +38,15 @@ body.page-expanded {
     transition: all 0.3s ease; /* Smooth transition for expand */
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
+/* Style body when a page container is expanded */
+body.page-expanded {
+    padding-top: 0;
+    padding-bottom: 0;
+    /* Match container background if it differs, otherwise inherit */
+    background-color: #fdfcf6;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-/* --- Layout Specific Styles --- */
-
+/* --- Layout: Columns --- */
 /* Two-Column Layout (blog.html, about.html, misc.html) */
 .layout-two-column {
     display: flex;
@@ -73,8 +73,7 @@ a:hover {
     text-align: center; /* Center header/footer elements */
 }
 
-
-/* --- Shared Elements --- */
+/* --- Shared Elements: Site Titles & Date --- */
 /* Adjust title margins slightly for KaTeX rendering */
 .site-title,
 .site-title-single {
@@ -121,8 +120,7 @@ a:hover {
      margin-bottom: 50px;
 }
 
-
-/* --- Navigation --- */
+/* --- Shared Elements: Navigation --- */
 .navigation ul { list-style: none; padding: 0; margin: 0; }
 .left-column .navigation { margin-bottom: 40px; }
 .left-column .navigation li { margin-bottom: 10px; }
@@ -134,8 +132,8 @@ a:hover {
     font-style: italic; /* Italic footer links */
 }
 
-
-/* --- Content Area Styles --- */
+/* --- Content Area: General --- */
+/* Styles for general text, section titles, intro text etc. */
 .intro-text p,
 .about-content p:not(:has(> img)) { /* Avoid applying italic/size to image paragraphs in About */
     font-size: 0.95em;
@@ -144,7 +142,7 @@ a:hover {
     text-align: left;
 }
 
-.section-title {
+.section-title { /* Used on pages like Blog, About for main section headings */
     font-size: 1.8em;
     font-weight: normal;
     text-align: center;
@@ -154,55 +152,92 @@ a:hover {
     color: #222;
 }
 
-/* Blog List Styling */
+/* --- Content Area: Post/Main Content Specific --- */
+/* Common styling for .post-content (single posts) and .main-content (resource page) */
+.post-content,
+.main-content {
+     text-align: justify;
+     margin-bottom: 50px;
+     font-size: 1em;
+}
+
+/* Headings within content */
+.post-content h1, .main-content h1,
+.post-content h2, .main-content h2,
+.post-content h3, .main-content h3 {
+     text-align: left;
+     margin-top: 2em;
+     margin-bottom: 1em;
+     font-family: Georgia, 'Times New Roman', Times, serif; /* Ensure consistent font */
+}
+
+/* Paragraphs within content */
+.post-content p,
+.main-content p {
+    margin-bottom: 1.2em;
+}
+
+/* Lists within content */
+.post-content ul, .main-content ul,
+.post-content ol, .main-content ol {
+    margin-left: 20px;
+    margin-bottom: 1.2em;
+}
+
+/* Code blocks within content */
+.post-content code,
+.main-content code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #eee;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+/* Preformatted text within content */
+.post-content pre,
+.main-content pre {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+}
+.post-content pre code, /* Reset code style inside pre */
+.main-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.9em; /* Ensure consistent font size */
+}
+
+/* Blockquotes within content */
+.post-content blockquote,
+.main-content blockquote {
+    border-left: 3px solid #ccc;
+    margin-left: 0;
+    padding-left: 15px;
+    color: #555;
+    font-style: italic;
+}
+
+/* Images within content */
+.post-content img,
+.main-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+/* --- Components: Blog List --- */
 .blog-list ul { list-style: none; padding: 0; margin: 0; }
 .blog-list li { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #eee; }
 .blog-list li:last-child { border-bottom: none; }
 .blog-list .blog-title { font-size: 1.1em; font-style: italic; flex-grow: 1; margin-right: 20px; }
 .blog-list .blog-date { font-size: 0.9em; color: #777; white-space: nowrap; }
 
-/* Post Content & Resource Page Content Styling */
-/* Use a common class or apply rules to both selectors */
-.post-content,
-.main-content { /* Added .main-content for resource.html */
-     text-align: justify;
-     margin-bottom: 50px;
-     font-size: 1em;
-}
-.post-content h1, .post-content h2, .post-content h3,
-.main-content h1, .main-content h2, .main-content h3 {
-     text-align: left; margin-top: 2em; margin-bottom: 1em; font-family: Georgia, 'Times New Roman', Times, serif;
-}
-.post-content p,
-.main-content p { margin-bottom: 1.2em; }
-.post-content ul, .post-content ol,
-.main-content ul, .main-content ol {
-    margin-left: 20px; margin-bottom: 1.2em;
-}
-.post-content code,
-.main-content code {
-    font-family: 'Courier New', Courier, monospace; background-color: #eee; padding: 2px 4px; border-radius: 3px; font-size: 0.9em;
-}
-.post-content pre,
-.main-content pre {
-    background-color: #f0f0f0; padding: 15px; border-radius: 4px; overflow-x: auto; border: 1px solid #ddd;
-}
-.post-content pre code,
-.main-content pre code {
-    background-color: transparent; padding: 0; border-radius: 0; font-size: 0.9em;
-}
-.post-content blockquote,
-.main-content blockquote {
-    border-left: 3px solid #ccc; margin-left: 0; padding-left: 15px; color: #555; font-style: italic;
-}
-.post-content img,
-.main-content img {
-    max-width: 100%; height: auto; display: block; margin: 20px auto;
-}
-
-
-/* --- Styles for Resource Link List (Misc Page) --- */
-/* Removed the styles for .resource-feed, .resource-item, etc. */
+/* --- Components: Resource Link List (Misc Page) --- */
 .resource-link-list ul {
     list-style: none;
     padding: 0;
@@ -237,8 +272,7 @@ a:hover {
 }
 */
 
-
-/* --- Expand Button Styles --- */
+/* --- Components: Expand Button --- */
 .expand-button {
     position: fixed;
     top: 25px;
@@ -278,7 +312,8 @@ a:hover {
 .expand-button:hover .tooltip-text { visibility: visible; opacity: 1; }
 
 
-/* --- Styles for Expanded State --- */
+/* --- States: Expanded View --- */
+/* Styles for when the container is expanded */
 .container.is-expanded {
     max-width: none;
     width: 100%;
@@ -327,8 +362,7 @@ a:hover {
      transform: rotate(45deg); /* Rotating '+' by 45deg makes an 'X' */
 }
 
-
-/* --- Responsive Adjustments --- */
+/* --- Media Queries: Responsive Adjustments --- */
 @media (max-width: 768px) {
     body { padding-top: 15px; padding-bottom: 15px; }
     body.page-expanded { padding: 0; } /* Remove padding on mobile when expanded */
@@ -381,60 +415,415 @@ a:hover {
         margin: 0 auto;
     }
 
-    /* Dark Mode Styles */
-    body.dark-mode {
-        background-color: #181818;
-        color: #e0e0e0;
-    }
-
-    body.dark-mode .container {
-        background-color: #232323;
-        border-color: #333;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-
-    body.dark-mode a { color: #aad8ff; }
-    body.dark-mode a:hover { color: #fff; }
-
-    body.dark-mode .left-column,
-    body.dark-mode .right-column,
-    body.dark-mode .layout-single-column {
-        background: none;
-        color: #e0e0e0;
-    }
-
-    body.dark-mode .post-content code,
-    body.dark-mode .main-content code {
-        background-color: #222;
-        color: #aad8ff;
-    }
-
-    body.dark-mode .post-content pre,
-    body.dark-mode .main-content pre {
-        background-color: #222;
-        border-color: #444;
-    }
-
-    body.dark-mode .post-content blockquote,
-    body.dark-mode .main-content blockquote {
-        border-left: 3px solid #555;
-        color: #bbb;
-    }
-
-    body.dark-mode .expand-button {
-        background-color: #222;
-        border-color: #444;
-        color: #aad8ff;
-    }
-
-    body.dark-mode .expand-button:hover {
-        background-color: #333;
-    }
-
-    body.dark-mode .site-title,
-    body.dark-mode .site-title-single,
-    body.dark-mode .section-title {
-        color: #aad8ff;
-    }
-
 } /* End of @media query */
+
+/* --- Dark Mode Styles --- */
+/* Applied via class on body, can be triggered by JS or prefers-color-scheme */
+body.dark-mode {
+    background-color: #181818;
+    color: #e0e0e0;
+}
+
+body.dark-mode .container {
+    background-color: #232323;
+    border-color: #333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+body.dark-mode a {
+    color: #aad8ff; /* Light blue for links */
+}
+body.dark-mode a:hover {
+    color: #fff; /* White on hover */
+}
+
+/* Ensure background and text color are correctly overridden in dark mode */
+body.dark-mode .left-column,
+body.dark-mode .right-column,
+body.dark-mode .layout-single-column {
+    background: none; /* Remove specific light backgrounds if any */
+    color: #e0e0e0; /* Ensure text color is light */
+}
+
+/* Content specific dark mode adjustments */
+body.dark-mode .post-content code,
+body.dark-mode .main-content code {
+    background-color: #222; /* Darker code background */
+    color: #aad8ff; /* Lighter code text */
+}
+
+body.dark-mode .post-content pre,
+body.dark-mode .main-content pre {
+    background-color: #222; /* Darker pre background */
+    border-color: #444; /* Darker border for pre */
+}
+
+body.dark-mode .post-content blockquote,
+body.dark-mode .main-content blockquote {
+    border-left: 3px solid #555; /* Darker blockquote border */
+    color: #bbb; /* Lighter blockquote text */
+}
+
+/* UI elements in dark mode */
+body.dark-mode .expand-button {
+    background-color: #222;
+    border-color: #444;
+    color: #aad8ff; /* Icon color */
+}
+
+body.dark-mode .expand-button:hover {
+    background-color: #333;
+}
+
+body.dark-mode .site-title,
+body.dark-mode .site-title-single,
+body.dark-mode .section-title {
+    color: #aad8ff; /* Titles in light blue */
+}
+
+/* Ensure other elements are legible */
+body.dark-mode .date-header {
+    color: #999; /* Lighter gray for dates */
+}
+
+body.dark-mode .blog-list .blog-date {
+    color: #999;
+}
+
+body.dark-mode .post-header .site-title-single::before,
+body.dark-mode .post-header .site-title-single::after {
+    background-color: #777; /* Darker lines for title */
+}
+
+body.dark-mode .blog-list li {
+    border-bottom-color: #444; /* Darker border for list items */
+}
+
+body.dark-mode .resource-link-list li {
+    border-bottom-color: #444; /* Darker border for resource items */
+}
+
+/* KaTeX mathematical rendering in dark mode */
+body.dark-mode .katex {
+    color: #e0e0e0; /* Match body text color */
+}
+/* Override specific KaTeX colors if needed, e.g., for fractions, symbols */
+/* body.dark-mode .katex .mfracC { color: #e0e0e0; } */
+/* body.dark-mode .katex .vlist-t { border-color: #555; } */
+
+
+/* Text selection color in dark mode */
+body.dark-mode ::selection {
+    background-color: #555; /* Darker selection background */
+    color: #fff; /* Light text for selection */
+}
+body.dark-mode ::-moz-selection { /* Firefox */
+    background-color: #555;
+    color: #fff;
+}
+
+/* Ensure borders are themed */
+body.dark-mode .left-column {
+    border-right-color: #333; /* Darker border for the right side of left column */
+}
+body.dark-mode @media (max-width: 768px) {
+    body.dark-mode .left-column {
+        border-bottom-color: #333; /* Darker border for bottom of left column on mobile */
+    }
+}
+
+
+/* Images: Consider filters for images if they don't look good on dark backgrounds */
+/* body.dark-mode img { filter: brightness(0.8) contrast(1.2); } */
+
+/* Ensure general text elements not explicitly covered elsewhere are legible */
+body.dark-mode .intro-text p,
+body.dark-mode .about-content p:not(:has(> img)) {
+    color: #bbb; /* Lighter italic text */
+}
+
+/* Specific component hover states if needed beyond simple link hovers */
+/* Example: body.dark-mode .some-button:hover { background-color: #444; } */
+
+/* Ensure body background is applied even when page is expanded */
+body.dark-mode.page-expanded {
+    background-color: #181818;
+}
+
+/* Ensure container background in dark mode is applied even when page is expanded */
+body.dark-mode .container.is-expanded {
+    background-color: #232323;
+}
+
+/* --- Components: Theme Toggle Button --- */
+.theme-toggle-container {
+    margin-top: 15px; /* Add some space above the toggle button */
+    text-align: center; /* Center the button if it's in a block context */
+}
+
+#darkModeToggle {
+    background-color: #f0f0f0; /* Light grey background */
+    border: 1px solid #ccc;     /* Subtle border */
+    border-radius: 20px;        /* Rounded pill shape */
+    color: #333;                /* Dark text/icon */
+    cursor: pointer;
+    font-size: 1.2em;           /* Adjust icon size */
+    padding: 5px 10px;
+    outline: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    line-height: 1; /* Ensure icon is vertically centered if it's just text/emoji */
+}
+
+#darkModeToggle:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+/* Dark Mode styles for the toggle button */
+body.dark-mode #darkModeToggle {
+    background-color: #333; /* Dark background */
+    border-color: #555;     /* Darker border */
+    color: #f0f0f0;         /* Light text/icon */
+}
+
+body.dark-mode #darkModeToggle:hover {
+    background-color: #444;
+    border-color: #777;
+}
+
+/* --- Components: Blog Post Listing Items --- */
+#blog-posts-container {
+    /* Container for all blog post items, if specific styling needed */
+}
+
+.blog-post-item {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;      /* Consistent with container */
+    padding: 25px;
+    margin-bottom: 30px;     /* Space between posts */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: box-shadow 0.3s ease;
+}
+
+.blog-post-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+}
+
+.blog-post-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;      /* Slightly rounded images */
+    margin-bottom: 20px;     /* Space below image */
+    display: block;          /* Ensure it's block for margin auto if needed */
+}
+
+.blog-post-title { /* Class for the heading containing the link */
+    margin-top: 0; /* Remove default h3 margin if image is present */
+    margin-bottom: 10px;
+}
+
+.blog-post-title a {
+    color: #2a2a2a;          /* Darker title color */
+    text-decoration: none;
+    font-size: 1.7em;        /* Larger title */
+    font-weight: bold;       /* Bold title */
+    font-family: Georgia, 'Times New Roman', Times, serif; /* Match body heading font */
+}
+
+.blog-post-title a:hover {
+    color: #0066cc;          /* Standard link hover blue */
+    text-decoration: underline;
+}
+
+.blog-post-meta {
+    font-size: 0.9em;
+    color: #666;             /* Lighter meta text */
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.blog-post-summary {
+    color: #444;             /* Slightly darker summary text */
+    margin-bottom: 20px;
+    line-height: 1.65;       /* Improved line height for readability */
+}
+
+.read-more-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border: 1px solid transparent; /* For transition effect or future styling */
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.read-more-link:hover {
+    color: #0056b3;
+    text-decoration: none; /* Keep underline on title hover, not here */
+    background-color: rgba(0, 123, 255, 0.05); /* Subtle background on hover */
+}
+
+/* Styles for error messages within blog listing */
+.blog-post-error {
+    background-color: #ffebee; /* Light red background for errors */
+    border-color: #ffcdd2;
+    padding: 15px;
+    color: #c62828; /* Dark red text */
+}
+.blog-post-error h3 {
+    color: #b71c1c; /* Even darker red for error title */
+    margin-bottom: 5px;
+}
+
+
+/* Dark Mode Styles for Blog Post Listing Items */
+body.dark-mode .blog-post-item {
+    background-color: #2a2a2e; /* Darker background for post items */
+    border-color: #48484e;    /* Adjusted border for contrast */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+body.dark-mode .blog-post-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+}
+
+body.dark-mode .blog-post-title a {
+    color: #d0d8e0;          /* Lighter title color for dark mode */
+}
+
+body.dark-mode .blog-post-title a:hover {
+    color: #e8efff;          /* Brighter hover for title */
+}
+
+body.dark-mode .blog-post-meta {
+    color: #99a2aa;          /* Adjusted meta text color */
+}
+
+body.dark-mode .blog-post-summary {
+    color: #b0b8c0;          /* Adjusted summary text color */
+}
+
+body.dark-mode .read-more-link {
+    color: #6cb6ff;          /* Lighter blue for links */
+}
+
+body.dark-mode .read-more-link:hover {
+    color: #9bcaff;
+    background-color: rgba(108, 182, 255, 0.1); /* Subtle background for dark mode */
+}
+
+body.dark-mode .blog-post-error {
+    background-color: #4d3232; /* Dark red background for errors */
+    border-color: #724545;
+    color: #ffacac; /* Lighter red text */
+}
+body.dark-mode .blog-post-error h3 {
+    color: #ff8e8e;
+}
+
+/* --- Components: Gallery Page Styles --- */
+.gallery-grid { /* ID: #gallery-container */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    padding: 20px 0; /* Padding for the grid container itself */
+}
+
+.gallery-item {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none; /* If items are wrapped in <a> for lightbox */
+    color: inherit; /* Inherit text color if wrapped in <a> */
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.12);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 220px; /* Slightly taller for gallery images */
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid #e0e0e0; /* Separator if caption bg is same as item bg */
+}
+
+.gallery-caption {
+    padding: 12px 15px;
+    font-size: 0.9em; /* Slightly smaller than blog summary */
+    color: #333;
+    font-weight: 600; /* Semi-bold caption */
+    text-align: center;
+    background-color: #f9f9f9;
+    flex-grow: 1; /* Allow caption to take available space */
+}
+
+.gallery-image-date {
+    padding: 5px 15px 10px; /* Less padding than caption */
+    font-size: 0.75em;
+    color: #777;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: 1px solid #f0f0f0; /* Subtle separator from caption if both have bg */
+}
+
+/* Dark Mode Styles for Gallery */
+body.dark-mode .gallery-item {
+    background-color: #2a2a2e;
+    border-color: #48484e;
+}
+
+body.dark-mode .gallery-item img {
+    border-bottom-color: #48484e;
+}
+
+body.dark-mode .gallery-caption {
+    color: #d0d8e0;
+    background-color: #33373a;
+    border-top-color: #48484e;
+}
+
+body.dark-mode .gallery-image-date {
+    color: #99a2aa;
+    background-color: #33373a;
+    border-top-color: #4a4e52;
+}
+
+/* Responsive adjustments for gallery grid */
+@media (max-width: 600px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Smaller min size */
+        gap: 15px;
+    }
+    .gallery-item img {
+        height: 160px; /* Adjust height for smaller items */
+    }
+    .gallery-caption {
+        font-size: 0.85em;
+        padding: 10px;
+    }
+    .gallery-image-date {
+        font-size: 0.7em;
+        padding: 5px 10px 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .gallery-grid { /* Single column on very small screens */
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+     .gallery-item img {
+        height: 200px; /* Taller images for single column */
+    }
+}

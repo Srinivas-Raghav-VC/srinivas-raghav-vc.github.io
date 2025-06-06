@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resource</title> <!-- JS will update this -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.min.css">
     <!-- Include KaTeX/Prism CSS if resource MD might use them -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
@@ -28,11 +28,15 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="blog.html">Blog</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="misc.html">Resources</a></li>
                     <li><a href="life_in_weeks.html">Life in Weeks!</a></li>  <!-- Link back to list -->
                     <li><a href="quotes_display.html">Quotes</a></li>
                 </ul>
+                <div class="theme-toggle-container">
+                    <button id="darkModeToggle" aria-label="Toggle dark mode">🌓</button>
+                </div>
             </nav>
         </footer>
 
@@ -57,7 +61,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
 
     <!-- Shared Custom Script -->
-    <script src="js/main.js"></script>
+    <script src="js/main.min.js"></script>
 
     <!-- Inline Page-Specific Script -->
     <script>

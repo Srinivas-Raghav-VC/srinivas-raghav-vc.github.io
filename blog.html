@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Srinivas Raghav V C - Blog</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.min.css">
     <!-- Include KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
 </head>
@@ -21,11 +21,15 @@
                     <!-- Add Home link, update Blog link -->
                     <li><a href="index.html">Home</a></li>
                     <li><a href="blog.html">Blogs</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="about.html">About Me</a></li>
                     <li><a href="misc.html">Misc</a></li>
                     <li><a href="life_in_weeks.html">Life in Weeks !</a></li>
                     <li><a href="quotes_display.html">Quotes</a></li>
                 </ul>
+                <div class="theme-toggle-container">
+                    <button id="darkModeToggle" aria-label="Toggle dark mode">🌓</button>
+                </div>
             </nav>
             <div class="intro-text" id="intro-content">
                 <p>Loading intro...</p>
@@ -33,10 +37,8 @@
         </aside>
         <main class="right-column">
             <h2 class="section-title">BLOGS</h2>
-            <div class="blog-list">
-                <ul id="blog-list-ul">
-                    <li>Loading blogs...</li>
-                </ul>
+            <div id="blog-posts-container">
+                <p>Loading posts...</p>
             </div>
         </main>
 
@@ -63,64 +65,34 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
 
     <!-- Shared Custom Script -->
-    <script src="js/main.js"></script>
+    <script src="js/main.min.js"></script>
 
     <!-- Inline Page-Specific Script -->
     <script>
         // Configuration
-        const blogPosts = [
-            { title: 'To seek flow and to be in flow.', date: '19 April 2025', file: 'to seek flow and to be in flow.md' },
-            { title: 'Language models are the new drugs.', date: '19 April 2025', file: 'poison_models.md' },
-            { title: 'An Essay on a Reflection of Life at This Point.', date: '10 May 2025', file: 'essay_on_life.md' },
-            { title: 'Revision Tracker.', date: '10 May 2025', file: 'revision_tracker.md' },
-            { title: 'Cool Images.' , date: '10 May 2025', file: 'cool_images.md' },
-            { title: 'On Consistency of Habits.' , date: '13th May 2025' , file: 'hard_days_habit.md'},
-            { title: 'A Poem that has a deep whisper in me.' , date: '13th May 2025', file: 'poem_that_speaks_a_lot.md'},
-            { title: 'Poem #1' , date: '14th May 2025',file:'poem.md'},
-            { title: 'Poem #2' , date: '14th May 2025',file:'poem_2.md'}
-        ];
-
-        blogPosts.reverse(); // Reverse the order of blog posts
-        const introMarkdownFile = 'content/intro-blurb.md';
-
-        // Function Specific to Blog List
-        function generateBlogList() {
-            const listElement = document.getElementById('blog-list-ul');
-            if (!listElement) { /* Error handling */ return; }
-            listElement.innerHTML = '';
-            if (blogPosts.length === 0) { /* Handle empty */ return; }
-            blogPosts.forEach(post => { /* ... generate li elements ... */
-                const li = document.createElement('li');
-                const postUrl = `post.html?md=${encodeURIComponent(post.file.replace('.md', ''))}`;
-                li.innerHTML = `<a href="${postUrl}" class="blog-title">${post.title}</a> <span class="blog-date">${post.date}</span>`;
-                listElement.appendChild(li);
-            });
-        }
+        const introMarkdownFile = 'content/intro-blurb.md'; // Keep this for the sidebar
 
         // Initialization
         document.addEventListener('DOMContentLoaded', () => {
-            // Update date
+            // Update date in sidebar
             const dateElement = document.getElementById('current-date');
             if (dateElement && typeof formatDate === 'function') {
                 dateElement.textContent = formatDate(new Date());
             } else if(dateElement) { dateElement.textContent = 'Date Error'; }
 
-            // Generate list
-            generateBlogList();
-
-            // Load intro content
+            // Load intro content into sidebar
             if (typeof loadMarkdownContent === 'function') {
                 loadMarkdownContent(introMarkdownFile, 'intro-content');
-            } else { console.error('loadMarkdownContent function not found.'); }
+            } else { console.error('loadMarkdownContent function for intro not found.'); }
 
-            // Render static LaTeX
+            // Render static LaTeX (e.g., for site title in sidebar)
             if (typeof renderMathInElement === 'function') {
                  try {
                      renderMathInElement(document.body, { delimiters: [ { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false } ], throwOnError: false });
-                 } catch (mathError) { console.error("KaTeX rendering failed:", mathError); }
-            } else { console.warn('KaTeX function not found.'); }
+                 } catch (mathError) { console.error("KaTeX rendering failed on blog.html:", mathError); }
+            } else { console.warn('KaTeX function (renderMathInElement) not found on blog.html.'); }
 
-            // Expand Toggle Logic (for two-column)
+            // Expand Toggle Logic (for two-column layout)
             const expandButton = document.getElementById('expand-toggle');
             const container = document.querySelector('.container');
             const body = document.body;
@@ -128,10 +100,9 @@
 
              if (expandButton && container && body && tooltip) {
                 expandButton.addEventListener('click', () => {
-                    container.classList.toggle('is-expanded'); // Toggles container styles
-                    body.classList.toggle('page-expanded');    // Toggles body styles
+                    container.classList.toggle('is-expanded');
+                    body.classList.toggle('page-expanded');
 
-                    // Update tooltip text and button title
                     if (container.classList.contains('is-expanded')) {
                         expandButton.title = 'Condense View';
                         tooltip.textContent = 'Condense';
@@ -140,7 +111,16 @@
                         tooltip.textContent = 'Expand';
                     }
                 });
-            } else { console.warn('Expand button/container/body/tooltip not found.'); }
+            } else { console.warn('Expand button/container/body/tooltip not found on blog.html.'); }
+
+            // Call to initBlogPage will be handled by js/main.js or a new blog.js
+            // if (typeof initBlogPage === 'function') {
+            //     initBlogPage();
+            // } else {
+            //    console.error('initBlogPage function not found. Blog posts will not be loaded.');
+            //    const postsContainer = document.getElementById('blog-posts-container');
+            //    if(postsContainer) postsContainer.innerHTML = '<p>Error: Blog loading script not found.</p>';
+            // }
         });
     </script>
 </body>

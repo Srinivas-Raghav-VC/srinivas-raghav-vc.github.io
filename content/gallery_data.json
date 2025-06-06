@@ -1,0 +1,37 @@
+[
+  {
+    "id": "img001",
+    "path": "posts/1-1.jpg",
+    "caption": "Abstract digital art, vibrant colors.",
+    "date": "2024-01-10",
+    "tags": ["abstract", "digital-art", "colorful"]
+  },
+  {
+    "id": "img002",
+    "path": "posts/art_buddha.jpg",
+    "caption": "Statue of Buddha in a serene setting.",
+    "date": "2024-01-15",
+    "tags": ["spiritual", "statue", "serene", "buddha"]
+  },
+  {
+    "id": "img003",
+    "path": "posts/space_1.jpg",
+    "caption": "Nebula or galaxy in deep space.",
+    "date": "2024-01-20",
+    "tags": ["space", "astronomy", "nebula", "stars"]
+  },
+  {
+    "id": "img004",
+    "path": "posts/Partha-Sarathi-scaled.jpg",
+    "caption": "Partha Sarathi, a depiction of Krishna.",
+    "date": "2024-02-01",
+    "tags": ["mythology", "krishna", "hinduism", "art"]
+  },
+  {
+    "id": "img005",
+    "path": "posts/van_gough.jpg",
+    "caption": "Artwork in the style of Van Gogh.",
+    "date": "2024-02-05",
+    "tags": ["impressionism", "art", "van-gogh-style"]
+  }
+]

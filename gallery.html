@@ -3,27 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Srinivas Raghav V C - About Me</title>
+    <title>Srinivas Raghav V C - Gallery</title>
     <link rel="stylesheet" href="style.min.css">
     <!-- Include KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
 </head>
 <body>
-    <!-- Container gets 'is-expanded', body gets 'page-expanded' on toggle -->
     <div class="container layout-two-column">
-         <aside class="left-column">
-            <!-- Use LaTeX for name -->
-            <h1 class="site-title">Srinivas Raghav V C</h1>
+        <aside class="left-column">
+            <h1 class="site-title">$Srinivas~Raghav~V~C$</h1>
             <div class="date-header" id="current-date">Date loading...</div>
             <nav class="navigation">
-                <ul>
-                    <!-- Add Home link, update Blog link -->
+                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="blog.html">Blogs</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="gallery.html" class="active">Gallery</a></li>
                     <li><a href="about.html">About Me</a></li>
                     <li><a href="misc.html">Misc</a></li>
-                    <li><a href="life_in_weeks.html">Life in Weeks !</a></li>
+                    <li><a href="life_in_weeks.html">Life in Weeks!</a></li>
                     <li><a href="quotes_display.html">Quotes</a></li>
                 </ul>
                 <div class="theme-toggle-container">
@@ -35,67 +32,53 @@
             </div>
         </aside>
         <main class="right-column">
-            <h2 class="section-title">ABOUT ME</h2>
-            <div class="about-content" id="about-content-main">
-                <p>Loading about information...</p>
+            <h2 class="section-title">GALLERY</h2>
+            <div id="gallery-container" class="gallery-grid">
+                <p>Loading gallery...</p>
             </div>
         </main>
 
-        <!-- Expand Button (ADDED HERE) -->
          <button id="expand-toggle" class="expand-button" title="Expand View">
-            <!-- ** NEW, SIMPLER SVG ICON ** -->
-            <!-- ** REPLACE old SVG with this NEW, SIMPLER SVG ICON ** -->
-            <!-- *** UPDATED SVG ICON (Fullscreen) *** -->
-            <!-- *** NEW - SIMPLE INLINE SVG ICON (+) *** -->
             <svg class="expand-collapse-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <!-- Vertical line -->
                 <line x1="10" y1="4" x2="10" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <!-- Horizontal line -->
                 <line x1="4" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
-            <span class="tooltip-text">Expand</span>
+             <span class="tooltip-text">Expand</span>
          </button>
-
-    </div> <!-- End of div.container -->
-
+    </div>
 
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/marked@5/marked.min.js"></script>
-    <!-- Include KaTeX JS -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
 
     <!-- Shared Custom Script -->
     <script src="js/main.min.js"></script>
 
-    <!-- Inline Page-Specific Script -->
+    <!-- Inline Page-Specific Script for sidebar, KaTeX, and expand toggle -->
     <script>
-        // Configuration
-        const aboutMarkdownFile = 'content/about-me.md';
         const introMarkdownFile = 'content/intro-blurb.md';
 
-        // Initialization
         document.addEventListener('DOMContentLoaded', () => {
-            // Update date
+            // Update date in sidebar
             const dateElement = document.getElementById('current-date');
             if (dateElement && typeof formatDate === 'function') {
                 dateElement.textContent = formatDate(new Date());
             } else if(dateElement) { dateElement.textContent = 'Date Error'; }
 
-            // Load content
+            // Load intro content into sidebar
             if (typeof loadMarkdownContent === 'function') {
                 loadMarkdownContent(introMarkdownFile, 'intro-content');
-                loadMarkdownContent(aboutMarkdownFile, 'about-content-main');
-            } else { console.error('loadMarkdownContent function not found.'); }
+            } else { console.error('loadMarkdownContent function for intro not found.'); }
 
-            // Render static LaTeX (for the name)
+            // Render static LaTeX (e.g., for site title in sidebar)
             if (typeof renderMathInElement === 'function') {
                  try {
-                     renderMathInElement(document.body, { delimiters: [ { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false } ], throwOnError: false });
-                 } catch (mathError) { console.error("KaTeX rendering failed:", mathError); }
-            } else { console.warn('KaTeX function not found.'); }
+                     renderMathInElement(document.querySelector('.left-column .site-title'), { delimiters: [ { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false } ], throwOnError: false });
+                 } catch (mathError) { console.error("KaTeX rendering failed on gallery.html:", mathError); }
+            } else { console.warn('KaTeX function (renderMathInElement) not found on gallery.html.'); }
 
-            // Expand Toggle Logic (ADDED HERE)
+            // Expand Toggle Logic (for two-column layout)
             const expandButton = document.getElementById('expand-toggle');
             const container = document.querySelector('.container');
             const body = document.body;
@@ -103,10 +86,9 @@
 
              if (expandButton && container && body && tooltip) {
                 expandButton.addEventListener('click', () => {
-                    container.classList.toggle('is-expanded'); // Toggles container styles
-                    body.classList.toggle('page-expanded');    // Toggles body styles
+                    container.classList.toggle('is-expanded');
+                    body.classList.toggle('page-expanded');
 
-                    // Update tooltip text and button title
                     if (container.classList.contains('is-expanded')) {
                         expandButton.title = 'Condense View';
                         tooltip.textContent = 'Condense';
@@ -115,8 +97,10 @@
                         tooltip.textContent = 'Expand';
                     }
                 });
-            } else { console.warn('Expand button/container/body/tooltip not found.'); }
-            // --- End Expand Toggle Logic ---
+            } else { console.warn('Expand button/container/body/tooltip not found on gallery.html.'); }
+
+            // initGalleryPage() will be called from js/main.js's global DOMContentLoaded listener
+            // based on the presence of 'gallery-container'.
         });
     </script>
 </body>

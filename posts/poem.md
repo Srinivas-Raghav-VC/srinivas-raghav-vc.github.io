@@ -1,3 +1,11 @@
+---
+title: "Poem #1"
+date: "2025-05-14"
+author: "Srinivas Raghav V C"
+slug: "poem-1-fighting-the-man-inside"
+summary: "A short poem about the internal struggle against one's own limiting self."
+tags: ["poetry", "reflection", "struggle"]
+---
 ## Poem #1
 
 
